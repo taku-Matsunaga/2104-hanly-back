@@ -11,6 +11,18 @@ class LocalDevelopSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Eloquents\Friend::class, 10)->create();
+        factory(\App\Eloquents\Friend::class, 3)
+            ->create()
+            ->each(function ($friend) {
+                factory(\App\Eloquents\FriendsRelationship::class, 3)->create([
+                    'own_friends_id' => $friend->id,
+                ]);
+
+                factory(\App\Eloquents\Pin::class)->create([
+                    'friends_id' => $friend->id,
+                ]);
+            });
+
+        \Artisan::call('passport:client --password --provider users');
     }
 }
