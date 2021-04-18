@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
                 // 不要なURIを使わない（パスワードグラントのみ利用）
+                
                 Passport::routes(function ($router) {
                     $router->forAccessTokens();
                 }, ['prefix' => 'api/oauth']);
